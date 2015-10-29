@@ -38,7 +38,7 @@ int main(void) {
 		// HSV表色系へ色情報を変換
 		// 先にノイズを消しておく
 		medianBlur(src_video, smooth_video, 7);
-		cvtColor(smooth_video, dst_video, CV_BGR2HSV);
+		cvtColor(smooth_video, hsv_video, CV_BGR2HSV);
 		//imshow(hsv_window, hsv_video);
 
 		// H,S,Vの要素に分割する
