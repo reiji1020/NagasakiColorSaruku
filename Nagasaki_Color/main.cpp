@@ -12,51 +12,51 @@ int main(void) {
 	uchar hue, sat, val;
 	Mat src_video;
 	Mat smooth_video;
-	Mat hsv_img;
+	Mat dst_img;
 	Mat hsv_video;
 	Mat frame;
 	VideoCapture capture(0);
-	// ƒJƒƒ‰‚ªg‚¦‚È‚¢ê‡‚ÍƒvƒƒOƒ‰ƒ€‚ğ~‚ß‚é
+	// ã‚«ãƒ¡ãƒ©ãŒä½¿ãˆãªã„å ´åˆã¯ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æ­¢ã‚ã‚‹
 	if (!capture.isOpened())
 		return -1;
 
-	// ƒEƒBƒ“ƒhƒE‚ğì¬‚·‚é
-	char windowName[] = "ƒJƒƒ‰‚Å‚³‚é‚­ƒ}ƒbƒv‚ğB‰e‚µ‚Ä‚Ë!";
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã™ã‚‹
+	char windowName[] = "ã‚«ãƒ¡ãƒ©ã§ã•ã‚‹ããƒãƒƒãƒ—ã‚’æ’®å½±ã—ã¦ã­!";
 	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
-	namedWindow("”F¯Œ‹‰Ê", CV_WINDOW_AUTOSIZE);
+	namedWindow("èªè­˜çµæœ", CV_WINDOW_AUTOSIZE);
 
-	// ‰½‚©ƒL[‚ª‰Ÿ‰º‚³‚ê‚é‚Ü‚ÅAƒ‹[ƒv‚ğ‚­‚è•Ô‚·
+	// ä½•ã‹ã‚­ãƒ¼ãŒæŠ¼ä¸‹ã•ã‚Œã‚‹ã¾ã§ã€ãƒ«ãƒ¼ãƒ—ã‚’ãã‚Šè¿”ã™
 	while (cvWaitKey(1) == -1)
 	{
 		hsv_img = Scalar(0, 0, 0);
-		// ƒJƒƒ‰‚©‚ç1ƒtƒŒ[ƒ€æ“¾‚·‚é
+		// ã‚«ãƒ¡ãƒ©ã‹ã‚‰1ãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—ã™ã‚‹
 		capture >> frame;
 		src_video = frame;
-		hsv_img = Mat(Size(src_video.cols, src_video.rows), CV_8UC1);
+		dst_img = Mat(Size(src_video.cols, src_video.rows), CV_8UC1);
 		imshow(windowName,src_video);
 
-		// HSV•\FŒn‚ÖFî•ñ‚ğ•ÏŠ·
-		// æ‚ÉƒmƒCƒY‚ğÁ‚µ‚Ä‚¨‚­
+		// HSVè¡¨è‰²ç³»ã¸è‰²æƒ…å ±ã‚’å¤‰æ›
+		// å…ˆã«ãƒã‚¤ã‚ºã‚’æ¶ˆã—ã¦ãŠã
 		medianBlur(src_video, smooth_video, 7);
-		cvtColor(smooth_video, hsv_video, CV_BGR2HSV);
+		cvtColor(smooth_video, dst_video, CV_BGR2HSV);
 		//imshow(hsv_window, hsv_video);
 
-		// H,S,V‚Ì—v‘f‚É•ªŠ„‚·‚é
+		// H,S,Vã®è¦ç´ ã«åˆ†å‰²ã™ã‚‹
 		for(int y = 0; y < hsv_video.rows; y++) {
 			for (int x = 0; x < hsv_video.cols; x++) {
 				hue = hsv_video.at<Vec3b>(y, x)[0];
 				sat = hsv_video.at<Vec3b>(y, x)[1];
 				val = hsv_video.at<Vec3b>(y, x)[2];
-				// ‹—¯’nƒ}ƒbƒv‚ÌŒŸo
+				// å±…ç•™åœ°ãƒãƒƒãƒ—ã®æ¤œå‡º
 				if ((hue < 35 && hue > 20) && sat > 100) {
-					hsv_img.at<uchar>(y, x) = 255;
+					dst_img.at<uchar>(y, x) = 255;
 				}
 				else {
-					hsv_img.at<uchar>(y, x) = 0;
+					dst_img.at<uchar>(y, x) = 0;
 				}
 			}
 		}
-		imshow("”F¯Œ‹‰Ê",hsv_img);
+		imshow("èªè­˜çµæœ",dst_img);
 	}
 	destroyAllWindows();
 	return 0;
