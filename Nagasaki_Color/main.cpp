@@ -28,7 +28,7 @@ int main(void) {
 	// 何かキーが押下されるまで、ループをくり返す
 	while (cvWaitKey(1) == -1)
 	{
-		hsv_img = Scalar(0, 0, 0);
+		dst_img = Scalar(0, 0, 0);
 		// カメラから1フレーム取得する
 		capture >> frame;
 		src_video = frame;
