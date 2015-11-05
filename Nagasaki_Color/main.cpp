@@ -30,7 +30,10 @@ int main(void) {
 	// ウィンドウを作成する
 	char windowName[] = "カメラでさるくマップを撮影してね!";
 	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
-	namedWindow("認識結果", CV_WINDOW_AUTOSIZE);
+	char hsvwindow[] = "HSV変換結果";
+	namedWindow(hsvwindow, CV_WINDOW_AUTOSIZE);
+	char dstwindow[] = "認識結果"
+	namedWindow(dstwindow, CV_WINDOW_AUTOSIZE);
 
 	// 何かキーが押下されるまで、ループをくり返す
 	while (browser_flag != true)
@@ -64,7 +67,7 @@ int main(void) {
 				}
 			}
 		}
-		imshow("認識結果",dst_img);
+		imshow(dstwindow,dst_img);
 		if (y_aria >1000) browser_flag = true;
 	}
 	ShellExecute(0, 0, L"http://www.saruku.info/", 0, 0, SW_SHOW);
