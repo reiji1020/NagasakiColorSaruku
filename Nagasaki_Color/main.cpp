@@ -15,6 +15,7 @@ int main(void) {
 
 	uchar hue, sat, val;
 	bool browser_flag = false;
+	int y_aria = 0;
 	Mat src_video(Size(640,480),CV_8UC1,Scalar::all(255));
 	Mat smooth_video(Size(640, 480), CV_8UC1, Scalar::all(255));
 	Mat dst_img(Size(640, 480), CV_8UC1, Scalar::all(0));
@@ -22,50 +23,51 @@ int main(void) {
 	Mat frame(Size(640, 480), CV_8UC1, Scalar::all(255));
 	VideoCapture capture(0);
 
-	// ƒJƒƒ‰‚ªg‚¦‚È‚¢ê‡‚ÍƒvƒƒOƒ‰ƒ€‚ğ~‚ß‚é
+	// ã‚«ãƒ¡ãƒ©ãŒä½¿ãˆãªã„å ´åˆã¯ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æ­¢ã‚ã‚‹
 	if (!capture.isOpened())
 		return -1;
 
-	// ƒEƒBƒ“ƒhƒE‚ğì¬‚·‚é
-	char windowName[] = "ƒJƒƒ‰‚Å‚³‚é‚­ƒ}ƒbƒv‚ğB‰e‚µ‚Ä‚Ë!";
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã™ã‚‹
+	char windowName[] = "ã‚«ãƒ¡ãƒ©ã§ã•ã‚‹ããƒãƒƒãƒ—ã‚’æ’®å½±ã—ã¦ã­!";
 	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
-	namedWindow("”F¯Œ‹‰Ê", CV_WINDOW_AUTOSIZE);
+	namedWindow("èªè­˜çµæœ", CV_WINDOW_AUTOSIZE);
 
-	// ‰½‚©ƒL[‚ª‰Ÿ‰º‚³‚ê‚é‚Ü‚ÅAƒ‹[ƒv‚ğ‚­‚è•Ô‚·
-	while (cvWaitKey(1) == -1)
+	// ä½•ã‹ã‚­ãƒ¼ãŒæŠ¼ä¸‹ã•ã‚Œã‚‹ã¾ã§ã€ãƒ«ãƒ¼ãƒ—ã‚’ãã‚Šè¿”ã™
+	while (browser_flag != true)
 	{
 		dst_img = Scalar::all(0);
-		// ƒJƒƒ‰‚©‚ç1ƒtƒŒ[ƒ€æ“¾‚·‚é
+		y_aria = 0;
+		// ã‚«ãƒ¡ãƒ©ã‹ã‚‰1ãƒ•ãƒ¬ãƒ¼ãƒ å–å¾—ã™ã‚‹
 		capture >> frame;
 		src_video = frame;
 		imshow(windowName,src_video);
 
-		// HSV•\FŒn‚ÖFî•ñ‚ğ•ÏŠ·
-		// æ‚ÉƒmƒCƒY‚ğÁ‚µ‚Ä‚¨‚­
+		// HSVè¡¨è‰²ç³»ã¸è‰²æƒ…å ±ã‚’å¤‰æ›
+		// å…ˆã«ãƒã‚¤ã‚ºã‚’æ¶ˆã—ã¦ãŠã
 		medianBlur(src_video, smooth_video, 5);
 		cvtColor(smooth_video, hsv_video, CV_BGR2HSV);
 		//imshow(hsv_window, hsv_video);
 
-		// H,S,V‚Ì—v‘f‚É•ªŠ„‚·‚é
+		// H,S,Vã®è¦ç´ ã«åˆ†å‰²ã™ã‚‹
 		for(int y = 0; y < hsv_video.rows; y++) {
 			for (int x = 0; x < hsv_video.cols; x++) {
 				hue = hsv_video.at<Vec3b>(y, x)[0];
 				sat = hsv_video.at<Vec3b>(y, x)[1];
 				val = hsv_video.at<Vec3b>(y, x)[2];
-				// ‹—¯’nƒ}ƒbƒv‚ÌŒŸo
+				// å±…ç•™åœ°ãƒãƒƒãƒ—ã®æ¤œå‡º
 				if ((hue < 35 && hue > 20) && sat > 127) {
 					dst_img.at<uchar>(y, x) = 255;
-					browser_flag = true;
+					y_aria++;
 				}
 				else {
 					dst_img.at<uchar>(y, x) = 0;
 				}
 			}
 		}
-		imshow("”F¯Œ‹‰Ê",dst_img);
+		imshow("èªè­˜çµæœ",dst_img);
+		if (y_aria >1000) browser_flag = true;
 	}
-	if (browser_flag = true)
-		ShellExecute(0, 0, L"http://www.saruku.info/", 0, 0, SW_SHOW);
+	ShellExecute(0, 0, L"http://www.saruku.info/", 0, 0, SW_SHOW);
 	destroyAllWindows();
 	return 0;
 }
