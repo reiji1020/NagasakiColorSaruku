@@ -32,7 +32,7 @@ int main(void) {
 	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
 	char hsvwindow[] = "HSV変換結果";
 	namedWindow(hsvwindow, CV_WINDOW_AUTOSIZE);
-	char dstwindow[] = "認識結果"
+	char dstwindow[] = "認識結果";
 	namedWindow(dstwindow, CV_WINDOW_AUTOSIZE);
 
 	// 何かキーが押下されるまで、ループをくり返す
